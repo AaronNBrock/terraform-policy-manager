@@ -19,7 +19,7 @@ A jenkins sever with a role is created in the source account and applied to an E
     aws iam put-role-policy --role-name terraform-policy-manager --policy-name terraform-policy-manager-policy --policy-document file://policies/target_policy.json
     ```
 
-2.  Finally, add the following permission to the EC2 instance role in:
+5.  Add the following permission to the EC2 instance role in:
     ```
     {
         "Effect": "Allow",
@@ -27,6 +27,8 @@ A jenkins sever with a role is created in the source account and applied to an E
         "Resource": "<arn-of-role-in-target-account>"
     }
     ```
+
+6. Update the `main.tf` file in the root of this repo to assume the `<arn-of-role-in-target-account>`
 
 
 
