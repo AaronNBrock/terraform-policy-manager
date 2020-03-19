@@ -17,6 +17,34 @@ resource "aws_config_config_rule" "s3_versioning" {
   depends_on = [aws_config_configuration_recorder.main]
 }
 
+#
+# S3 Tagging Enabled
+#
+resource "aws_config_config_rule" "s3_versioning" {
+  name        = "${var.name_prefix}s3-versioning${var.name_suffix}"
+  description = "Verify that tags exist on S3 Buckets."
+
+  source {
+    owner             = "AWS"
+    source_identifier = "REQUIRED_TAGS"
+  }
+
+  input_parameters = jsonencode({
+    tag1Key = "my-cool-s3-tag"
+
+  })
+
+
+  scope {
+    compliance_resource_types = ["AWS::S3::Bucket"]
+  }
+
+  depends_on = [aws_config_configuration_recorder.main]
+}
+
+
+
+
 module "s3_versioning_remediation" {
   source      = "../remediation/configure_s3_versioning"
   config_rule = aws_config_config_rule.s3_versioning
