@@ -17,6 +17,14 @@ resource "aws_config_config_rule" "s3_versioning" {
   depends_on = [aws_config_configuration_recorder.main]
 }
 
+
+module "s3_versioning_remediation" {
+  source      = "../remediation/configure_s3_versioning"
+  config_rule = aws_config_config_rule.s3_versioning
+  name_prefix = var.name_prefix
+  name_suffix = var.name_suffix
+}
+
 #
 # S3 Tagging Enabled
 #
@@ -40,14 +48,4 @@ resource "aws_config_config_rule" "s3_tagging" {
   }
 
   depends_on = [aws_config_configuration_recorder.main]
-}
-
-
-
-
-module "s3_versioning_remediation" {
-  source      = "../remediation/configure_s3_versioning"
-  config_rule = aws_config_config_rule.s3_versioning
-  name_prefix = var.name_prefix
-  name_suffix = var.name_suffix
 }
