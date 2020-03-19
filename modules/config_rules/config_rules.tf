@@ -20,7 +20,7 @@ resource "aws_config_config_rule" "s3_versioning" {
 #
 # S3 Tagging Enabled
 #
-resource "aws_config_config_rule" "s3_versioning" {
+resource "aws_config_config_rule" "s3_tagging" {
   name        = "${var.name_prefix}s3-versioning${var.name_suffix}"
   description = "Verify that tags exist on S3 Buckets."
 
