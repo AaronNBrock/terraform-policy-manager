@@ -16,24 +16,27 @@ locals {
 
 
 resource "aws_config_configuration_recorder_status" "main" {
-  name       = aws_config_configuration_recorder.main.name
+  count      = var.create_recorder ? 1 : 0
+  name       = aws_config_configuration_recorder.main.0.name
   is_enabled = true
-  depends_on = [aws_config_delivery_channel.main]
+  depends_on = [aws_config_delivery_channel.main.0]
 }
 
 resource "aws_config_delivery_channel" "main" {
+  count          = var.create_recorder ? 1 : 0
   name           = "${var.name_prefix}delivery-channel${var.name_suffix}"
-  s3_bucket_name = aws_s3_bucket.config.bucket
+  s3_bucket_name = aws_s3_bucket.config.0.bucket
   s3_key_prefix  = local.s3_key_prefix
-  depends_on     = [aws_config_configuration_recorder.main]
+  depends_on     = [aws_config_configuration_recorder.main.0]
 }
 
 #
 # AWS Config Recorder
 #
 resource "aws_config_configuration_recorder" "main" {
+  count    = var.create_recorder ? 1 : 0
   name     = "${var.name_prefix}config-recorder${var.name_suffix}"
-  role_arn = aws_iam_role.recorder.arn
+  role_arn = aws_iam_role.recorder.0.arn
 
   recording_group {
     all_supported = true
@@ -44,6 +47,7 @@ resource "aws_config_configuration_recorder" "main" {
 # Bucket
 #
 resource "aws_s3_bucket" "config" { # TODO: Maybe configure a common bucket accross all accounts?
+  count  = var.create_recorder ? 1 : 0
   bucket = local.bucket_name
 
   server_side_encryption_configuration {
@@ -64,6 +68,7 @@ resource "aws_s3_bucket" "config" { # TODO: Maybe configure a common bucket accr
 
 # Allow IAM policy to assume the role for AWS Config
 data "aws_iam_policy_document" "aws-config-role-policy" {
+  count = var.create_recorder ? 1 : 0
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -81,17 +86,20 @@ data "aws_iam_policy_document" "aws-config-role-policy" {
 #
 
 resource "aws_iam_role" "recorder" {
+  count              = var.create_recorder ? 1 : 0
   name               = "${var.name_prefix}config-recorder${var.name_suffix}"
-  assume_role_policy = data.aws_iam_policy_document.aws-config-role-policy.json
+  assume_role_policy = data.aws_iam_policy_document.aws-config-role-policy.0.json
 }
 
 resource "aws_iam_policy_attachment" "managed-policy" {
+  count      = var.create_recorder ? 1 : 0
   name       = "${var.name_prefix}config-recorder-managed-policy${var.name_suffix}"
-  roles      = [aws_iam_role.recorder.name]
+  roles      = [aws_iam_role.recorder.0.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
 
 resource "aws_iam_policy" "aws-config-policy" {
+  count  = var.create_recorder ? 1 : 0
   name   = "${var.name_prefix}config-recorder-policy${var.name_suffix}"
   policy = <<POLICY
 {
@@ -132,7 +140,8 @@ POLICY
 }
 
 resource "aws_iam_policy_attachment" "aws-config-policy" {
+  count      = var.create_recorder ? 1 : 0
   name       = "${var.name_prefix}config-recorder-policy${var.name_suffix}"
-  roles      = [aws_iam_role.recorder.name]
-  policy_arn = aws_iam_policy.aws-config-policy.arn
+  roles      = [aws_iam_role.recorder.0.name]
+  policy_arn = aws_iam_policy.aws-config-policy.0.arn
 }
