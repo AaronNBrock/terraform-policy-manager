@@ -38,7 +38,7 @@ resource "aws_config_config_rule" "s3_tagging" {
   }
 
   input_parameters = jsonencode({
-    tag1Key = "my-really-cool-s3-tag"
+    tag1Key = "my-cool-s3-tag"
 
   })
 

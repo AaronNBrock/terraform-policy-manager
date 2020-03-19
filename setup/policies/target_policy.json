@@ -1,5 +1,4 @@
 {
-    "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "VisualEditor0",
@@ -62,5 +61,6 @@
             "Action": "dynamodb:*",
             "Resource": "arn:aws:dynamodb:*:*:table/aws-sentinal-*"
         }
-    ]
+    ],
+    "Version": "2012-10-17"
 }
