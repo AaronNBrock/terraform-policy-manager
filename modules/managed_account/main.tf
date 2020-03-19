@@ -16,6 +16,5 @@ module "config_rules" {
     aws = aws.managed_account
   }
   source      = "../config_rules"
-  name_prefix = var.name_prefix
-  name_suffix = var.name_suffix
+  name_prefix = "aws-sentinal-"
 }

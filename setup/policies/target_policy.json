@@ -14,7 +14,10 @@
         {
             "Sid": "VisualEditor1",
             "Effect": "Allow",
-            "Action": "config:DescribeConfigurationRecorders",
+            "Action": [
+                "config:DescribeConfigurationRecorders",
+                "iam:CreateServiceLinkedRole"
+            ],
             "Resource": [
                 "*"
             ]
