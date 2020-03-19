@@ -19,8 +19,3 @@ module "config_rules" {
   name_prefix = var.name_prefix
   name_suffix = var.name_suffix
 }
-
-resource "aws_s3_bucket" "b" {
-  provider = aws.managed_account
-  bucket   = "my-tf-test-bucket541"
-}

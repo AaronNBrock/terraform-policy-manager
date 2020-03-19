@@ -1,0 +1,63 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "config:*",
+            "Resource": [
+                "arn:aws:config:*:*:config-rule/config-rule-*",
+                "arn:aws:config:*:*:remediation-configuration/aws-sentinal-*",
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "config:DescribeConfigurationRecorders",
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": "config:*",
+            "Resource": "arn:aws:config:*:*:config-rule/config-rule-*"
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": "ssm:*",
+            "Resource": "arn:aws:ssm:*:*:document/*"
+        },
+        {
+            "Sid": "VisualEditor4",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::aws-sentinal-*"
+        },
+        {
+            "Sid": "VisualEditor5",
+            "Effect": "Allow",
+            "Action": "iam:*",
+            "Resource": [
+                "arn:aws:iam::*:role/aws-sentinal-*",
+                "arn:aws:iam::*:policy/aws-sentinal-*",
+                "arn:aws:iam::*:policy/service-role/AWSConfigRole"
+            ]
+        },
+        {
+            "Sid": "VisualEditor6",
+            "Effect": "Allow",
+            "Action": "cloudformation:*",
+            "Resource": "arn:aws:cloudformation:*:*:stack/aws-sentinal-*/*"
+        },
+        {
+            "Sid": "VisualEditor7",
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:*:*:table/aws-sentinal-*"
+        }
+    ]
+}
