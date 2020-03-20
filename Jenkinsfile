@@ -4,16 +4,13 @@ def default_env = [
     'TF_IN_AUTOMATION=true', 
     'TF_INPUT=false'
 ]
-def file = readFile file:"accounts"
-def lines = file.readLines()
-def files
 
 node {
     checkout scm
     def files = findFiles(glob: 'accounts/*')
 
     for (int i; files.size(); i++) {
-        file = readFile file:"${files[i]}"
+        def file = readFile file:"${files[i]}"
 
         docker.image('hashicorp/terraform:0.12.23').inside('--entrypoint=""') {
             withEnv(default_env + file.readLines()) {
