@@ -10,7 +10,7 @@ provider "aws" {
   }
 }
 
-
+/*
 module "config_rules" {
   providers = {
     aws = aws.managed_account
@@ -18,3 +18,4 @@ module "config_rules" {
   source      = "../config_rules"
   name_prefix = "aws-sentinal-"
 }
+*/

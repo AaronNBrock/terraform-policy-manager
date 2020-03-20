@@ -11,14 +11,23 @@ terraform {
 provider "aws" {
   version = "~> 2"
   region  = "us-east-1"
+  assume_role {
+    role_arn = var.role_arn
+  }
 }
 
-module "my_managed_account" {
-  source   = "./modules/managed_account"
-  role_arn = "arn:aws:iam::389981984738:role/terraform-policy-manager"
+module "config_rules" {
+  source          = "./modules/config_rules"
+  name_prefix     = "aws-sentinal-"
+  create_recorder = false
 }
 
-module "my_managed_account2" {
-  source   = "./modules/managed_account"
-  role_arn = "arn:aws:iam::675587008098:role/terraform-policy-manager"
-}
+# module "my_managed_account" {
+#   source   = "./modules/managed_account"
+#   role_arn = "arn:aws:iam::389981984738:role/terraform-policy-manager"
+# }
+
+# module "my_managed_account2" {
+#   source   = "./modules/managed_account"
+#   role_arn = "arn:aws:iam::675587008098:role/terraform-policy-manager"
+# }
