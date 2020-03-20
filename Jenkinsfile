@@ -7,13 +7,14 @@ def default_env = [
 
 node {
     checkout scm
-    def files = findFiles(glob: 'accounts/*')
 
-    for (int i; files.size(); i++) {
-        def file = readFile file:"${files[i]}"
+    files = sh(returnStdout: true, script: 'ls').trim().split( "\\r?\\n" )
+
+    for (fileName in files) {
+        lines = readFile(file: fileName).trim().split( "\\r?\\n" )
 
         docker.image('hashicorp/terraform:0.12.23').inside('--entrypoint=""') {
-            withEnv(default_env + file.readLines()) {
+            withEnv(default_env + lines) {
 
                 stage('initialize') {
                     sh 'terraform init'
