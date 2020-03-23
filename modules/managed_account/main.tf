@@ -15,6 +15,7 @@ module "config_rules" {
   providers = {
     aws = aws.managed_account
   }
-  source      = "../config_rules"
-  name_prefix = "aws-sentinal-"
+  source          = "../config_rules"
+  name_prefix     = "aws-sentinal-"
+  create_recorder = false
 }
